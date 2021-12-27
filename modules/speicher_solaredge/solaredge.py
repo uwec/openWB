@@ -17,14 +17,31 @@ log = logging.getLogger("SolarEdge Battery")
 def update_solaredge_battery(client: ModbusClient, slave_ids: Iterable[int]):
     all_socs = [client.read_holding_registers(
         62852, ModbusDataType.FLOAT_32, wordorder=Endian.Little, unit=slave_id
-    ) for slave_id in slave_ids]
+        ) for slave_id in slave_ids
+    ]
     storage_powers = [
         client.read_holding_registers(
             62836, ModbusDataType.FLOAT_32, wordorder=Endian.Little, unit=slave_id
         ) for slave_id in slave_ids
     ]
-    log.debug("Battery SoCs=%s, powers=%s", all_socs, storage_powers)
-    get_bat_value_store(1).set(BatState(power=sum(storage_powers), soc=mean(all_socs)))
+    energy_counters = [
+        client.read_holding_registers(
+            62838, [ModbusDataType.UINT_64] * 2, wordorder=Endian.Little, unit=slave_id
+        ) for slave_id in slave_ids
+    ]
+    storage_temperature = [
+        client.read_holding_registers(
+            62828, ModbusDataType.FLOAT_32, wordorder=Endian.Little, unit=slave_id
+        ) for slave_id in slave_ids
+    ]
+
+    log.debug("Battery SoCs=%s, powers=%s, energies=%s, temp=%s", all_socs, storage_powers, energy_counters, storage_temperature)
+    get_bat_value_store(1).set(BatState(
+        imported=sum(counter[0] for counter in energy_counters),
+        exported=sum(counter[1] for counter in energy_counters),
+        power=sum(storage_powers),
+        soc=mean(all_socs)
+    ))
 
 
 def main(address: str, second_battery: int):
@@ -33,8 +50,3 @@ def main(address: str, second_battery: int):
     with ModbusClient(address) as client:
         update_solaredge_battery(client, range(1, 2 + second_battery))
     log.debug("Update completed successfully")
-
-
-if __name__ == '__main__':
-    setup_logging_stdout()
-    run_using_positional_cli_args(main)
