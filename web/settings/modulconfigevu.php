@@ -810,7 +810,7 @@
 								<div class="col">
 									<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="solaredgeip" id="solaredgeip" value="<?php echo $solaredgeipold ?>">
 									<span class="form-text small">
-										IP Adresse des Solaredge Wechselrichters im lokalen Netzwerk.<br>
+										IP Adresse des SolarEdge Wechselrichters im lokalen Netzwerk.<br>
 										Hierfür muss ein EVU Zähler am SolarEdge Wechselrichter per Modbus angebunden sein.<br>
 										Ebenso muss ModbusTCP am Wechselrichter aktiviert werden.<br>
 										Der Zähler muss an erster Position im Wechselrichter konfiguriert sein, sonst ist eine Auslesung nicht möglich.<br>
@@ -823,10 +823,23 @@
 								<div class="col">
 									<input class="form-control" type="number" min="1" step="1" name="solaredgemodbusport" id="solaredgemodbusport" value="<?php echo (empty($solaredgemodbusportold)?'502':$solaredgemodbusportold) ?>">
 									<span class="form-text small">
-										Modbus/TCP Port der im Wechselrichter konfiguriert ist. Standardmäßig ist das 502 oder 1502.<br>
+										Modbus/TCP Port, der im Wechselrichter konfiguriert ist. Standardmäßig ist das 502 oder 1502.<br>
 									</span>
 								</div>
 							</div>
+							<div class="form-row mb-1">
+								<label for="solaredgebezugsid" class="col-md-4 col-form-label">Modbus Adresse</label>
+								<div class="col">
+									<input class="form-control" type="number" min="1" max="254" step="1" name="solaredgebezugid" id="solaredgebezugsid" value="<?php echo (empty($solaredgebezugidold)?'1':$solaredgebezugsidold) ?>">
+									<span class="form-text small">
+										Gültige Werte: 1 - 254<br>
+										Modbus Adresse des SolarEdge Wechselrichters, an dem der EVU Zähler angeschlossen ist.
+									</span>
+								</div>
+							</div>							
+							
+							
+							
 						</div>
 						<div id="wattbezugsolax" class="hide">
 							<div class="alert alert-info">

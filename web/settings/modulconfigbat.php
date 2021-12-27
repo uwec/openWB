@@ -471,7 +471,17 @@
 										<input class="form-control" type="text" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$" name="solaredgespeicherip" id="solaredgespeicherip" value="<?php echo $solaredgespeicheripold ?>">
 										<span class="form-text small">
 											Gültige Werte IP Adresse im Format: 192.168.0.12<br>
-											IP Adresse des Solaredge Wechselrichters an dem der Speicher angeschlossen ist.
+											IP Adresse des Solaredge Wechselrichters, an dem der Speicher angeschlossen ist.
+										</span>
+									</div>
+								</div>
+								<div class="form-row mb-1">
+									<label for="solaredgespeicherid1" class="col-md-4 col-form-label">Modbus Adresse</label>
+									<div class="col">
+										<input class="form-control" type="number" min="1" max="254" step="1" name="solaredgespeicherid1" id="solaredgespeicherid1" value="<?php echo (empty($solaredgespeicherid1old)?'1':$solaredgespeicherid1old)?>">
+										<span class="form-text small">
+											Gültige Werte: 1 - 254<br>
+											Modbus Adresse des Solaredge Wechselrichters, an dem der Speicher angeschlossen ist.
 										</span>
 									</div>
 								</div>

@@ -11,11 +11,12 @@ from pymodbus.client.sync import ModbusTcpClient
 
 ipaddress = str(sys.argv[1])
 zweiterspeicher = int(sys.argv[2])
+id1 = int(sys.argv[3])
 storage2power = 0
 
 client = ModbusTcpClient(ipaddress, port=502)
 
-rr = client.read_holding_registers(62836, 2, unit=1)
+rr = client.read_holding_registers(62836, 2, unit=id1)
 raw = struct.pack('>HH', rr.getRegister(1), rr.getRegister(0))
 storagepower = int(struct.unpack('>f', raw)[0])
 if zweiterspeicher == 1:
